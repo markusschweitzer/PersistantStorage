@@ -33,7 +33,7 @@ namespace PersistantStorage
 				: childSerializerConfigurable.WithChildSerializer(ConfigureSerializer(childSerializerConfigurable.ChildSerializer));
 		}
 	}
-	public class PersistantStorage: MarshalByRefObject
+	public class PersistantConnection: MarshalByRefObject
 	{
 		private MongoClient _client = null;
 		private IMongoDatabase _db = null;
