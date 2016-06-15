@@ -23,17 +23,18 @@ namespace PersistantStorage
             }
         }
 
-        public T this[int index]
+        public T GetOne(Func<T, bool> filter)
         {
-            get
-            {
-                return _localCache[index];
-            }
-            set
-            {
-                _localCache[index] = value;
-                _connection.InsertOrReplace(_name, x => x.Data.Equals(value),new PersistantListElement<T>(value));
-            }
+            return _localCache.FirstOrDefault(filter);
+        }
+        public IEnumerable<T> Get(Func<T, bool> filter)
+        {
+            return _localCache.Where(filter);
+        }
+
+        public void Replace(T item, Func<T, bool> filter)
+        {
+            
         }
 
         public void Add(T item)
@@ -56,6 +57,11 @@ namespace PersistantStorage
         public bool Contains(T item)
         {
             return _localCache.Contains(item);
+        }
+
+        public List<T> GetList()
+        {
+            return _localCache;
         }
     }
 }
