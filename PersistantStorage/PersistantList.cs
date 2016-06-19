@@ -73,10 +73,7 @@ namespace PersistantStorage
             return newEle.Id;
         }
 
-        public T Get(string id)
-        {
-            return _localCache.First(x => x.Id.Equals(id)).DataObject;
-        }
+        public T Get(string id) => _localCache.First(x => x.Id.Equals(id)).DataObject;
 
         public void Clear()
         {
@@ -84,10 +81,7 @@ namespace PersistantStorage
             _localCache.Clear();
         }
 
-        public long Count()
-        {
-            return _localCache.Count;
-        }
+        public long Count() => _localCache.Count;
 
         public void Remove(string id)
         {
@@ -108,15 +102,9 @@ namespace PersistantStorage
             }
         }
 
-        public PersistantListUpdateContext<T> CreateUpdateContext(string id)
-        {
-            return new PersistantListUpdateContext<T>(this, id);
-        }
+        public PersistantListUpdateContext<T> CreateUpdateContext(string id) => new PersistantListUpdateContext<T>(this, id);
 
-        public IReadOnlyList<PersistantListElement<T>> ToList()
-        {
-            return _localCache;
-        }
+        public IReadOnlyList<PersistantListElement<T>> ToList() => _localCache;
 
         public void ResetCollection(bool keepEntries)
         {
