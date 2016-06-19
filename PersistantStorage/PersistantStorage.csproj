@@ -49,10 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IncrementalIdGenerator.cs" />
     <Compile Include="PersistantList.cs" />
-    <Compile Include="PersistantListElement.cs" />
-    <Compile Include="PersistantStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
