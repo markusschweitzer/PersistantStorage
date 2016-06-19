@@ -101,6 +101,29 @@ namespace PersistantStorage
             _localCache.Remove(_localCache.First(x => x.Id.Equals(id)));
         }
 
+        public void Remove(List<string> ids)
+        {
+            _collection.DeleteManyAsync(x => ids.Contains(x.Id)).Wait();
+            foreach(var id in ids)
+            {
+                _localCache.Remove(_localCache.First(x => x.Id.Equals(id)));
+            }
+        }
+
+        public void Remove(Func<T, bool> filter)
+        {
+            var temp = new List<string>();
+            foreach(var ele in _localCache)
+            {
+                if (filter(ele.DataObject))
+                {
+                    temp.Add(ele.Id);
+                }
+            }
+
+            Remove(temp);
+        }
+
         public void Update(string id, Func<T,T> update)
         {
             var currentFind = _collection.Find(x => x.Id.Equals(id)).ToListAsync().Result;
