@@ -75,6 +75,18 @@ namespace PersistantStorage
 
         public T Get(string id) => _localCache.First(x => x.Id.Equals(id)).DataObject;
 
+        public string GetId(Func<T, bool> filter)
+        {
+            foreach(var ele in _localCache)
+            {
+                if (filter(ele.DataObject))
+                {
+                    return ele.Id;
+                }
+            }
+            return null;
+        }
+
         public void Clear()
         {
             _collection.DeleteManyAsync(x => true).Wait();
