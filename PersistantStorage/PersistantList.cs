@@ -118,6 +118,27 @@ namespace PersistantStorage
 
         public IReadOnlyList<PersistantListElement<T>> ToList() => _localCache;
 
+        public IReadOnlyList<T> ToElementList()
+        {
+            var temp = new List<T>();
+            foreach(var  ele in _localCache)
+            {
+                temp.Add(ele.DataObject);
+            }
+            return temp;
+        }
+
+        public void ForEach(Action<PersistantListElement<T>> action)
+        {
+            _localCache.ForEach(action);
+        }
+
+        public void ForEachElement(Action<T> action)
+        {
+            var temp = ToElementList().ToList();
+            temp.ForEach(action);
+        }
+
         public void ResetCollection(bool keepEntries)
         {
             _db.DropCollectionAsync(_collectionName).Wait();
