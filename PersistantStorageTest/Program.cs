@@ -56,10 +56,21 @@ namespace PersistantStorageTest
 
             Console.WriteLine("Reset collection");
 
-            stringList.ResetCollection(false);
+            stringList.ResetCollection(true);
 
             dbString = stringList.Get(id);
             Console.WriteLine("Retrieved reseted elemenr string: " + dbString);
+
+
+            Console.WriteLine("ForEach:");
+            stringList.ForEach(x => {
+                Console.WriteLine("Id: " + x.Id + " Data: " + x.DataObject);
+            });
+
+            Console.WriteLine("ForEachElement:");
+            stringList.ForEachElement(x => {
+                Console.WriteLine("Data: " + x);
+            });
 
 
             Console.ReadLine();
