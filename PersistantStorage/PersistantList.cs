@@ -46,15 +46,17 @@ namespace PersistantStorage
     public class PersistantList<T>
     {
         private readonly MongoClient _client;
-        private readonly IMongoCollection<PersistantListElement<T>> _collection;
+        private IMongoCollection<PersistantListElement<T>> _collection;
+        private readonly string _collectionName;
         private readonly IMongoDatabase _db;
-        private readonly List<PersistantListElement<T>> _localCache;
+        private List<PersistantListElement<T>> _localCache;
 
         public PersistantList(string  connectionString, string database, string collection)
         {
             _client = new MongoClient(connectionString);
             _db = _client.GetDatabase(database);
             _collection = _db.GetCollection<PersistantListElement<T>>(collection);
+            _collectionName = collection;
 
             var task = _collection.Find(x => true).ToListAsync();
             task.Wait();
@@ -116,9 +118,21 @@ namespace PersistantStorage
             return _localCache;
         }
 
-        public void ResetDbCollection()
+        public void ResetCollection(bool keepEntries)
         {
-            
+            _db.DropCollectionAsync(_collectionName).Wait();
+            _collection = _db.GetCollection<PersistantListElement<T>>(_collectionName);
+
+            if (keepEntries)
+            {
+                _collection.InsertManyAsync(_localCache);
+            }
+            else
+            {
+                var task = _collection.Find(x => true).ToListAsync();
+                task.Wait();
+                _localCache = task.Result;
+            }
         }
     }
 }
