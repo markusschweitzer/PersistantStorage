@@ -74,9 +74,6 @@ namespace PersistantStorage
         public T Get(string id)
         {
             return _localCache.First(x => x.Id.Equals(id)).DataObject;
-            //var task = _collection.Find(x => x.Id == id).ToListAsync();
-            //task.Wait();
-            //return task.Result[0].DataObject;
         }
 
         public void Clear()
@@ -88,7 +85,6 @@ namespace PersistantStorage
         public long Count()
         {
             return _localCache.Count;
-            //return _collection.CountAsync(x => true).Result;
         }
 
         public void Remove(string id)
