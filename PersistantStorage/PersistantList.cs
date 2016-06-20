@@ -12,38 +12,6 @@ using System.Threading.Tasks;
 
 namespace PersistantStorage
 {
-    public class PersistantListElement<T>
-    {
-        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
-        public string Id;
-
-        public T DataObject;
-
-        public PersistantListElement(T item)
-        {
-            DataObject = item;
-        }
-    }
-
-    public class PersistantListUpdateContext<T> : IDisposable
-    {
-        string _id;
-        PersistantList<T> _list;
-
-        public T DataObject;
-        public PersistantListUpdateContext(PersistantList<T> list, string id)
-        {
-            _list = list;
-            _id = id;
-            DataObject = list.Get(id);
-        }
-
-        public void Dispose()
-        {
-            _list.Update(_id, x => DataObject);
-        }
-    }
-
     public class PersistantList<T> : IEnumerable
     {
         private readonly MongoClient _client;
