@@ -12,6 +12,7 @@ namespace PersistantStorageTest
         static void Main(string[] args)
         {
             var connection = new PersistantStorageConnection();
+
             Exception connectException;
             if (!connection.Connect(@"mongodb://homeservice:qwert123@gate.homehub.io/homeservice", out connectException))
             {
@@ -87,6 +88,29 @@ namespace PersistantStorageTest
                 Console.WriteLine("Id: " + x.Id + " Data: " + x.DataObject);
             }
 
+            Console.WriteLine("======================================================");
+
+            var stringDict = new PersistantDictionary<int, string>(connection, "homeservice", "dict_demo");
+
+            count = stringDict.Count();
+            Console.WriteLine("Count before clear: " + count);
+
+            stringDict.Clear();
+
+            count = stringDict.Count();
+            Console.WriteLine("Count after clear: " + count);
+
+            id = stringDict.Add(2, "testzwei");
+
+            var dbkvp = stringDict.Get(id, true);
+            Console.WriteLine("From db: " + dbkvp.KeyObject + " " + dbkvp.DataObject);
+
+            using(var update = stringDict.CreateUpdateContext(id))
+            {
+                update.DataObject = "testzwei_new";
+            }
+            dbkvp = stringDict.Get(id, true);
+            Console.WriteLine("From db: " + dbkvp.KeyObject + " " + dbkvp.DataObject);
 
             Console.ReadLine();
         }
