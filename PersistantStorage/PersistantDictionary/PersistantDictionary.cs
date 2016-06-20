@@ -219,6 +219,16 @@ namespace PersistantStorage
         public PersistantDictionaryUpdateContext<K, T> CreateUpdateContext(string id) => new PersistantDictionaryUpdateContext<K, T>(this, id);
 
         public IReadOnlyList<PersistantDictionaryElement<K, T>> ToList() => _localCache;
+
+        public Dictionary<K, T> ToDictionary()
+        {
+            var temp = new Dictionary<K, T>();
+            foreach(var ele in _localCache)
+            {
+                temp.Add(ele.KeyObject, ele.DataObject);
+            }
+            return temp;
+        }
         
         public PersistantDictionaryElement<K, T>[] ToArray() => _localCache.ToArray();
 
