@@ -121,13 +121,14 @@ namespace PersistantStorage
             Remove(temp);
         }
 
-        public void Update(string id, Func<T, T> update)
+        public void Update(string id, Func<PersistantDictionaryElement<K, T>, PersistantDictionaryElement<K, T>> update)
         {
             var currentFind = _collection.Find(x => x.Id.Equals(id)).ToListAsync().Result;
             if (currentFind.Count == 1)
             {
                 var currentEle = currentFind[0];
-                currentEle.DataObject = update(currentEle.DataObject);
+                currentEle = update(currentEle);
+                currentEle.Id = id;
                 _collection.ReplaceOneAsync(x => x.Id.Equals(id), currentEle).Wait();
 
                 for (int i = 0; i < _localCache.Count; i++)
@@ -139,7 +140,9 @@ namespace PersistantStorage
                 }
             }
         }
-        
+
+        public PersistantDictionaryUpdateContext<K, T> CreateUpdateContext(string id) => new PersistantDictionaryUpdateContext<K, T>(this, id);
+
         public IReadOnlyList<PersistantDictionaryElement<K, T>> ToList() => _localCache;
         
         public PersistantDictionaryElement<K, T>[] ToArray() => _localCache.ToArray();
@@ -148,7 +151,20 @@ namespace PersistantStorage
         {
             _localCache.ForEach(action);
         }
-        
+
+        public void ForEachElementUpdate(Func<PersistantDictionaryElement<K, T>, PersistantDictionaryElement<K, T>> action)
+        {
+            for (int i = _localCache.Count - 1; i >= 0; i--)
+            {
+                using (var update = CreateUpdateContext(_localCache[i].Id))
+                {
+                    var intermediate = action(_localCache[i]);
+                    update.KeyObject = intermediate.KeyObject;
+                    update.DataObject = intermediate.DataObject;
+                }
+            }
+        }
+
         public void ResetCollection(bool keepEntries)
         {
             _db.DropCollectionAsync(_collectionName).Wait();

@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="PersistantDictionary.cs" />
     <Compile Include="PersistantDictionaryElement.cs" />
+    <Compile Include="PersistantDictionaryUpdateContext.cs" />
     <Compile Include="PersistantList.cs" />
     <Compile Include="PersistantListElement.cs" />
     <Compile Include="PersistantListUpdateContext.cs" />
