@@ -11,7 +11,10 @@ namespace PersistantStorageTest
     {
         static void Main(string[] args)
         {
-            var stringList = new PersistantList<string>(@"mongodb://homeservice:qwert123@gate.homehub.io/homeservice", "homeservice", "string_demo");
+            var connection = new PersistantStorageConnection();
+            connection.Connect(@"mongodb://homeservice:qwert123@gate.homehub.io/homeservice");
+
+            var stringList = new PersistantList<string>(connection, "homeservice", "string_demo");
 
             long count = stringList.Count();
             Console.WriteLine("Count before clear: " + count);

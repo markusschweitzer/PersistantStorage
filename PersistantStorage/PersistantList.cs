@@ -8,17 +8,16 @@ namespace PersistantStorage
 {
     public class PersistantList<T> : IEnumerable
     {
-        private readonly MongoClient _client;
         private IMongoCollection<PersistantListElement<T>> _collection;
         private readonly string _collectionName;
         private readonly IMongoDatabase _db;
         private List<PersistantListElement<T>> _localCache;
 
-        public PersistantList(string  connectionString, string database, string collection)
+
+        public PersistantList(PersistantStorageConnection connection, string database, string collection)
         {
-            _client = new MongoClient(connectionString);
-            _db = _client.GetDatabase(database);
-            _collection = _db.GetCollection<PersistantListElement<T>>(collection);
+            _db = connection.GetDatabase(database);
+            _collection = connection.GetCollection<PersistantListElement<T>>(_db, collection);
             _collectionName = collection;
 
             var task = _collection.Find(x => true).ToListAsync();
