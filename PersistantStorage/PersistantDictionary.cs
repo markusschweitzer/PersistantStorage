@@ -59,24 +59,24 @@ namespace PersistantStorage
             return newEle.Id;
         }
 
-        public T Get(string id, bool forceDb = false)
+        public PersistantDictionaryElement<K, T> Get(string id, bool forceDb = false)
         {
             if (forceDb)
             {
                 var currentFind = _collection.Find(x => x.Id.Equals(id)).ToListAsync().Result;
-                return currentFind[0].DataObject;
+                return currentFind[0];
             }
             else
             {
-                return _localCache.First(x => x.Id.Equals(id)).DataObject;
+                return _localCache.First(x => x.Id.Equals(id));
             }
         }
 
-        public string GetId(Func<T, bool> filter)
+        public string GetId(Func<K, T, bool> filter)
         {
             foreach (var ele in _localCache)
             {
-                if (filter(ele.DataObject))
+                if (filter(ele.KeyObject, ele.DataObject))
                 {
                     return ele.Id;
                 }
@@ -107,12 +107,12 @@ namespace PersistantStorage
             }
         }
 
-        public void Remove(Func<T, bool> filter)
+        public void Remove(Func<K, T, bool> filter)
         {
             var temp = new List<string>();
             foreach (var ele in _localCache)
             {
-                if (filter(ele.DataObject))
+                if (filter(ele.KeyObject, ele.DataObject))
                 {
                     temp.Add(ele.Id);
                 }
@@ -140,40 +140,19 @@ namespace PersistantStorage
             }
         }
         
-        public IReadOnlyList<PersistantListElement<T>> ToList() => _localCache;
+        public IReadOnlyList<PersistantDictionaryElement<K, T>> ToList() => _localCache;
+        
+        public PersistantDictionaryElement<K, T>[] ToArray() => _localCache.ToArray();
 
-        public IReadOnlyList<T> ToElementList()
-        {
-            var temp = new List<T>();
-            foreach (var ele in _localCache)
-            {
-                temp.Add(ele.DataObject);
-            }
-            return temp;
-        }
-
-        public PersistantListElement<T>[] ToArray() => _localCache.ToArray();
-
-        public T[] ToElementArray()
-        {
-            return ToElementList().ToArray();
-        }
-
-        public void ForEach(Action<PersistantListElement<T>> action)
+        public void ForEach(Action<PersistantDictionaryElement<K, T>> action)
         {
             _localCache.ForEach(action);
         }
-
-        public void ForEachElement(Action<T> action)
-        {
-            var temp = ToElementList().ToList();
-            temp.ForEach(action);
-        }
-
+        
         public void ResetCollection(bool keepEntries)
         {
             _db.DropCollectionAsync(_collectionName).Wait();
-            _collection = _db.GetCollection<PersistantListElement<T>>(_collectionName);
+            _collection = _db.GetCollection<PersistantDictionaryElement<K, T>>(_collectionName);
 
             if (keepEntries)
             {
@@ -187,7 +166,7 @@ namespace PersistantStorage
             }
         }
 
-        public IEnumerator<PersistantListElement<T>> GetEnumerator()
+        public IEnumerator<PersistantDictionaryElement<K, T>> GetEnumerator()
         {
             foreach (var ele in _localCache)
             {
