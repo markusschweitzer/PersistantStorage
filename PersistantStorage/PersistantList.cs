@@ -170,11 +170,11 @@ namespace PersistantStorage
 
         public void ForEachElementUpdate(Func<T, T> action)
         {
-            foreach (var ele in _localCache)
+            for (int i = _localCache.Count-1; i >= 0; i--)
             {
-                using (var update = CreateUpdateContext(ele.Id))
+                using (var update = CreateUpdateContext(_localCache[i].Id))
                 {
-                    update.DataObject = action(ele.DataObject);
+                    update.DataObject = action(_localCache[i].DataObject);
                 }
             }
         }
