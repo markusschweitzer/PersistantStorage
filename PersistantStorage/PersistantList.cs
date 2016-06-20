@@ -74,7 +74,18 @@ namespace PersistantStorage
             return newEle.Id;
         }
 
-        public T Get(string id) => _localCache.First(x => x.Id.Equals(id)).DataObject;
+        public T Get(string id, bool forceDb = false)
+        {
+            if (forceDb)
+            {
+                var currentFind = _collection.Find(x => x.Id.Equals(id)).ToListAsync().Result;
+                return currentFind[0].DataObject;
+            }
+            else
+            {
+                return _localCache.First(x => x.Id.Equals(id)).DataObject;
+            }
+        }
 
         public string GetId(Func<T, bool> filter)
         {
