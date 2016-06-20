@@ -69,9 +69,36 @@ namespace PersistantStorage
             return default(T);
         }
 
-        public bool ContainsKey(K key) => _localCache.FirstOrDefault(x => x.KeyObject.Equals(key)) != null;
+        public bool ContainsKey(K key, out string id)
+        {
+            var ele = _localCache.FirstOrDefault(x => x.KeyObject.Equals(key));
+            if(ele != null)
+            {
+                id = ele.Id;
+                return true;
+            }
+            else
+            {
+                id = null;
+                return false;
+            }
+        }
 
-        public bool ContainsValue(T value) => _localCache.FirstOrDefault(x => x.DataObject.Equals(value)) != null;
+        public bool ContainsValue(T value, out string id)
+        {
+            var ele = _localCache.FirstOrDefault(x => x.DataObject.Equals(value));
+            if (ele != null)
+            {
+                id = ele.Id;
+                return true;
+            }
+            else
+            {
+                id = null;
+                return false;
+            }
+
+        }
 
         public PersistantDictionaryElement<K, T> Get(string id, bool forceDb = false)
         {
