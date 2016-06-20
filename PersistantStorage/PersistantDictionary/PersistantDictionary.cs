@@ -100,7 +100,6 @@ namespace PersistantStorage
 
         }
 
-
         public string SetValue(K key, T value)
         {
             string id = null;
@@ -117,7 +116,6 @@ namespace PersistantStorage
                 return id;
             }
         }
-
 
         public PersistantDictionaryElement<K, T> Get(string id, bool forceDb = false)
         {
@@ -212,7 +210,7 @@ namespace PersistantStorage
             _localCache.ForEach(action);
         }
 
-        public void ForEachElementUpdate(Func<PersistantDictionaryElement<K, T>, PersistantDictionaryElement<K, T>> action)
+        public void ForEachUpdate(Func<PersistantDictionaryElement<K, T>, PersistantDictionaryElement<K, T>> action)
         {
             for (int i = _localCache.Count - 1; i >= 0; i--)
             {
