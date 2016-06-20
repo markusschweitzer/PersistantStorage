@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PersistantDictionary.cs" />
     <Compile Include="PersistantDictionaryElement.cs" />
     <Compile Include="PersistantList.cs" />
     <Compile Include="PersistantListElement.cs" />
