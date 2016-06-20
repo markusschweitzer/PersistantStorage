@@ -3,6 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Driver;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -43,7 +44,7 @@ namespace PersistantStorage
         }
     }
 
-    public class PersistantList<T>
+    public class PersistantList<T> : IEnumerable
     {
         private readonly MongoClient _client;
         private IMongoCollection<PersistantListElement<T>> _collection;
@@ -176,6 +177,22 @@ namespace PersistantStorage
                 var task = _collection.Find(x => true).ToListAsync();
                 task.Wait();
                 _localCache = task.Result;
+            }
+        }
+
+        public IEnumerator<PersistantListElement<T>> GetEnumerator()
+        {
+            foreach (var ele in _localCache)
+            {
+                yield return ele;
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            foreach (var ele in _localCache)
+            {
+                yield return ele;
             }
         }
     }

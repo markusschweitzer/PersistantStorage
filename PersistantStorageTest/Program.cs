@@ -72,6 +72,12 @@ namespace PersistantStorageTest
                 Console.WriteLine("Data: " + x);
             });
 
+            Console.WriteLine("ForEach IEnumerable loop:");
+            foreach(var x in stringList)
+            {
+                Console.WriteLine("Id: " + x.Id + " Data: " + x.DataObject);
+            }
+
 
             Console.ReadLine();
         }
