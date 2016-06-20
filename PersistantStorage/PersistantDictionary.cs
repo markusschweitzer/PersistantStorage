@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace PersistantStorage
 {
-    public class PersistantDictionary<T> : IEnumerable
+    public class PersistantDictionary<K, T> : IEnumerable
     {
-        private IMongoCollection<PersistantListElement<T>> _collection;
+        private IMongoCollection<PersistantDictionaryElement<K, T>> _collection;
         private readonly string _collectionName;
         private readonly IMongoDatabase _db;
-        private List<PersistantListElement<T>> _localCache;
+        private List<PersistantDictionaryElement<K, T>> _localCache;
 
 
         public PersistantDictionary(PersistantStorageConnection connection, string database, string collection)
         {
             _db = connection.GetDatabase(database);
-            _collection = connection.GetCollection<PersistantListElement<T>>(_db, collection);
+            _collection = connection.GetCollection<PersistantDictionaryElement<K, T>>(_db, collection);
             _collectionName = collection;
 
             var task = _collection.Find(x => true).ToListAsync();
@@ -30,7 +30,7 @@ namespace PersistantStorage
         public PersistantDictionary(IMongoDatabase database, string collection)
         {
             _db = database;
-            _collection = _db.GetCollection<PersistantListElement<T>>(collection);
+            _collection = _db.GetCollection<PersistantDictionaryElement<K, T>>(collection);
             _collectionName = collection;
 
             var task = _collection.Find(x => true).ToListAsync();
@@ -38,7 +38,7 @@ namespace PersistantStorage
             _localCache = task.Result;
         }
 
-        public PersistantDictionary(IMongoCollection<PersistantListElement<T>> collection)
+        public PersistantDictionary(IMongoCollection<PersistantDictionaryElement<K, T>> collection)
         {
             _db = collection.Database;
             _collection = collection;
@@ -49,9 +49,9 @@ namespace PersistantStorage
             _localCache = task.Result;
         }
 
-        public string Add(T item)
+        public string Add(K key, T item)
         {
-            var newEle = new PersistantListElement<T>(item);
+            var newEle = new PersistantDictionaryElement<K, T>(key, item);
             _collection.InsertOneAsync(newEle).Wait();
 
             _localCache.Add(newEle);
