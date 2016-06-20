@@ -100,6 +100,25 @@ namespace PersistantStorage
 
         }
 
+
+        public string SetValue(K key, T value)
+        {
+            string id = null;
+            if (!ContainsKey(key, out id))
+            {
+                return Add(key, value);
+            }
+            else
+            {
+                using(var update = CreateUpdateContext(id))
+                {
+                    update.DataObject = value;
+                }
+                return id;
+            }
+        }
+
+
         public PersistantDictionaryElement<K, T> Get(string id, bool forceDb = false)
         {
             if (forceDb)
