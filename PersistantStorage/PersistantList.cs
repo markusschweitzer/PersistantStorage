@@ -151,6 +151,13 @@ namespace PersistantStorage
             return temp;
         }
 
+        public PersistantListElement<T>[] ToArray() => _localCache.ToArray();
+
+        public T[] ToElementArray()
+        {
+            return ToElementList().ToArray();
+        }
+
         public void ForEach(Action<PersistantListElement<T>> action)
         {
             _localCache.ForEach(action);
