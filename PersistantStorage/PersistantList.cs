@@ -25,6 +25,17 @@ namespace PersistantStorage
             _localCache = task.Result;
         }
 
+        public PersistantList(IMongoDatabase database, string collection)
+        {
+            _db = database;
+            _collection = _db.GetCollection<PersistantListElement<T>>(collection);
+            _collectionName = collection;
+
+            var task = _collection.Find(x => true).ToListAsync();
+            task.Wait();
+            _localCache = task.Result;
+        }
+
         public string Add(T item)
         {
             var newEle = new PersistantListElement<T>(item);
