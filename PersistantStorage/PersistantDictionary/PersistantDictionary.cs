@@ -69,6 +69,21 @@ namespace PersistantStorage
             return default(T);
         }
 
+        public bool TryGetValue(K key, out T value)
+        {
+            T pVa = Get(key);
+            if (pVa == null)
+            {
+                value = default(T);
+                return false;
+            }
+            else
+            {
+                value = pVa;
+                return true;
+            }
+        }
+
         public bool ContainsKey(K key, out string id)
         {
             var ele = _localCache.FirstOrDefault(x => x.KeyObject.Equals(key));
