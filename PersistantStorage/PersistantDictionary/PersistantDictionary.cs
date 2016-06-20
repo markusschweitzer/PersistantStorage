@@ -59,6 +59,16 @@ namespace PersistantStorage
             return newEle.Id;
         }
 
+        public T Get(K key)
+        {
+            var ele = _localCache.FirstOrDefault(x => x.KeyObject.Equals(key));
+            if(ele != null)
+            {
+                return ele.DataObject;
+            }
+            return default(T);
+        }
+        
         public PersistantDictionaryElement<K, T> Get(string id, bool forceDb = false)
         {
             if (forceDb)
