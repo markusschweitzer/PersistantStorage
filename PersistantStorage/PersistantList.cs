@@ -133,8 +133,13 @@ namespace PersistantStorage
                 currentEle.DataObject = update(currentEle.DataObject);                
                 _collection.ReplaceOneAsync(x => x.Id.Equals(id), currentEle).Wait();
 
-                var localEle = _localCache.Where(x => x.Id.Equals(id)).ToList();
-                localEle[0] = currentEle;
+                for (int i = 0; i < _localCache.Count; i++)
+                {
+                    if (_localCache[i].Id.Equals(id))
+                    {
+                        _localCache[i] = currentEle;
+                    }
+                }                
             }
         }
 
