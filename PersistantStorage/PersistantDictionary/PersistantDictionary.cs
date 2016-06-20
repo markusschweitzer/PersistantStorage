@@ -142,6 +142,23 @@ namespace PersistantStorage
             return null;
         }
 
+        public T GetOrDefaultValue(K key, T defaultValue, bool save = false)
+        {
+            T val = Get(key);
+            if(val != null)
+            {
+                return val;
+            }
+            else
+            {
+                if (save)
+                {
+                    Add(key, defaultValue);
+                }
+                return defaultValue;
+            }
+        }
+
         public void Clear()
         {
             _collection.DeleteManyAsync(x => true).Wait();
