@@ -12,7 +12,11 @@ namespace PersistantStorageTest
         static void Main(string[] args)
         {
             var connection = new PersistantStorageConnection();
-            connection.Connect(@"mongodb://homeservice:qwert123@gate.homehub.io/homeservice");
+            Exception connectException;
+            if (!connection.Connect(@"mongodb://homeservice:qwert123@gate.homehub.io/homeservice", out connectException))
+            {
+                Console.WriteLine(string.Format("Cant't connect. Reason='{0}'", connectException.Message));
+            }
 
             var stringList = new PersistantList<string>(connection, "homeservice", "string_demo");
 

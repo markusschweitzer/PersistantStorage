@@ -19,8 +19,9 @@ namespace PersistantStorage
             }
         }
 
-        public bool Connect(string connectionString)
+        public bool Connect(string connectionString, out Exception exception)
         {
+            exception = null;
             try
             {
                 _client = new MongoClient(connectionString);
@@ -28,6 +29,7 @@ namespace PersistantStorage
             }
             catch (Exception ex)
             {
+                exception = ex;
                 _client = null;
                 return false;
             }

@@ -49,12 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PersistantDictionary.cs" />
-    <Compile Include="PersistantDictionaryElement.cs" />
-    <Compile Include="PersistantDictionaryUpdateContext.cs" />
-    <Compile Include="PersistantList.cs" />
-    <Compile Include="PersistantListElement.cs" />
-    <Compile Include="PersistantListUpdateContext.cs" />
+    <Compile Include="PersistantDictionary\PersistantDictionary.cs" />
+    <Compile Include="PersistantDictionary\PersistantDictionaryElement.cs" />
+    <Compile Include="PersistantDictionary\PersistantDictionaryUpdateContext.cs" />
+    <Compile Include="PersistantList\PersistantList.cs" />
+    <Compile Include="PersistantList\PersistantListElement.cs" />
+    <Compile Include="PersistantList\PersistantListUpdateContext.cs" />
     <Compile Include="PersistantStorageConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
