@@ -163,6 +163,17 @@ namespace PersistantStorage
             temp.ForEach(action);
         }
 
+        public void ForEachElementUpdate(Func<T, T> action)
+        {
+            foreach (var ele in _localCache)
+            {
+                using (var update = CreateUpdateContext(ele.Id))
+                {
+                    update.DataObject = action(ele.DataObject);
+                }
+            }
+        }
+        
         public void ResetCollection(bool keepEntries)
         {
             _db.DropCollectionAsync(_collectionName).Wait();

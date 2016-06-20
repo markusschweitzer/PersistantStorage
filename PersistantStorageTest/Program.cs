@@ -72,6 +72,8 @@ namespace PersistantStorageTest
                 Console.WriteLine("Data: " + x);
             });
 
+            stringList.ForEachElementUpdate(x => x += "_2nd");
+
             Console.WriteLine("ForEach IEnumerable loop:");
             foreach(var x in stringList)
             {
