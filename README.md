@@ -102,3 +102,20 @@ void Remove(string id);
 void Remove(List<string> ids);
 void Remove(Func<T, bool> filter);
 ```
+
+###PersistantDictionary
+
+To create a new ```PersistantDictionary``` you can either call the constructor, or get a new one from the ```PersistantConnection``` object.
+
+```csharp
+var dict = new PersistantDictionary<int, string>(connection, "database", "collection");
+
+var dict2 = connection.CreateDictionary<int, string>("database", "collection");
+```
+
+Afterwards, you can use the dictionary to store objects in it:
+
+```csharp
+string id = dict.Add(15, "aString");
+```
+Foreach ```Add``` call, you will get a new unique database id returned. This id can be used get exactly this key value pair from the db back.
