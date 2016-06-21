@@ -66,5 +66,15 @@ namespace PersistantStorage
             }
             throw new InvalidOperationException("Client not connected!");
         }
+
+        public IPersistantList<T> CreateList<T>(string database, string collection)
+        {
+            return new PersistantList<T>(this, database, collection);
+        }
+
+        public IPersistantDictionary<K, T> CreateDictionary<K, T>(string database, string collection)
+        {
+            return new PersistantDictionary<K, T>(this, database, collection);
+        }
     }
 }
