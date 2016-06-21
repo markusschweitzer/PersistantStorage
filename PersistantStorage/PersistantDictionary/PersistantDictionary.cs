@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PersistantStorage
 {
-    public class PersistantDictionary<K, T> : IEnumerable
+    public class PersistantDictionary<K, T> : IEnumerable, IPersistantDictionary<K, T>
     {
         private IMongoCollection<PersistantDictionaryElement<K, T>> _collection;
         private readonly string _collectionName;
@@ -145,16 +145,17 @@ namespace PersistantStorage
             }
         }
 
-        public string GetId(Func<K, T, bool> filter)
+        public List<string> GetId(Func<K, T, bool> filter)
         {
+            List<string> temp = new List<string>();
             foreach (var ele in _localCache)
             {
                 if (filter(ele.KeyObject, ele.DataObject))
                 {
-                    return ele.Id;
+                    temp.Add(ele.Id);
                 }
             }
-            return null;
+            return temp;
         }
 
         public T GetOrDefaultValue(K key, T defaultValue, bool save = false)
