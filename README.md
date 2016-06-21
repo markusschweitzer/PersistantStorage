@@ -119,3 +119,67 @@ Afterwards, you can use the dictionary to store objects in it:
 string id = dict.Add(15, "aString");
 ```
 Foreach ```Add``` call, you will get a new unique database id returned. This id can be used get exactly this key value pair from the db back.
+```csharp
+List<string> ids = dict.GetId((x, y) => x == 15)
+```
+Retrieving elements:
+
+```csharp
+var value = dict.Get(15);
+
+string value;
+if(!dict.TryGetValue(15, out value))
+{
+...
+}
+
+string defaultValue = "nothing";
+string value = dict.GetOrDefaultValue(15, defaultvalue, false);
+```
+
+For fast checking if a key or value is present, the following methods are provided:
+
+```csharp
+bool ContainsKey(K key, out string id);
+
+bool ContainsValue(T value, out string id);
+```
+
+But remember, that each object returned by the persistant list is just a local copy. Changes won't be saved in the DB.
+To update a item (locally AND in the db), a update context is needed (which takes the database id as string).
+```updateContext.DataObject``` will reflect the current element to update. Changes on this object will be saved in the database.
+
+```csharp
+using(var updateContext = dict.CreateUpdateContext(id))
+{
+    updateContext.KeyObject = 12;
+    updateContext.DataObject = "newData";
+}
+```
+
+For easy updating of multiple items a convinient ForEach loop is provided:
+
+```csharp
+list.ForEachUpdate(x => {
+   x.DataObject = "newData";
+   return x;
+});
+```
+
+Also for better handling, a few support methods are provided:
+
+```csharp
+void Clear();
+
+long Count();
+
+void Remove(string id);
+void Remove(List<string> ids);
+void Remove(Func<K, T, bool> filter);
+
+IReadOnlyList<PersistantDictionaryElement<K, T>> ToList();
+
+Dictionary<K, T> ToDictionary();
+
+PersistantDictionaryElement<K, T>[] ToArray();
+```
