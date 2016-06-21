@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace PersistantStorage
 {
-    public class PersistantList<T> : IEnumerable
+    public class PersistantList<T> : IEnumerable, IPersistantList<T>
     {
         private IMongoCollection<PersistantListElement<T>> _collection;
         private readonly string _collectionName;
@@ -70,16 +70,30 @@ namespace PersistantStorage
             }
         }
 
-        public string GetId(Func<T, bool> filter)
+        public List<T> Get(Func<T, bool> filter)
         {
+            List<T> temp = new List<T>();
+            foreach (var ele in _localCache)
+            {
+                if (filter(ele.DataObject))
+                {
+                    temp.Add(ele.DataObject);
+                }
+            }
+            return temp;
+        }
+
+        public List<string> GetId(Func<T, bool> filter)
+        {
+            List<string> temp = new List<string>();
             foreach(var ele in _localCache)
             {
                 if (filter(ele.DataObject))
                 {
-                    return ele.Id;
+                    temp.Add(ele.Id);
                 }
             }
-            return null;
+            return temp;
         }
 
         public void Clear()
@@ -171,7 +185,7 @@ namespace PersistantStorage
 
         public void ForEachElementUpdate(Func<T, T> action)
         {
-            for (int i = _localCache.Count-1; i >= 0; i--)
+            for (int i = _localCache.Count - 1; i >= 0; i--)
             {
                 using (var update = CreateUpdateContext(_localCache[i].Id))
                 {
@@ -179,7 +193,19 @@ namespace PersistantStorage
                 }
             }
         }
-        
+
+        public void ForEachUpdate(Func<PersistantListElement<T>, PersistantListElement<T>> action)
+        {
+            for (int i = _localCache.Count - 1; i >= 0; i--)
+            {
+                using (var update = CreateUpdateContext(_localCache[i].Id))
+                {
+                    var newObject = action(_localCache[i]);
+                    update.DataObject = newObject.DataObject;
+                }
+            }
+        }
+
         public void ResetCollection(bool keepEntries)
         {
             _db.DropCollectionAsync(_collectionName).Wait();

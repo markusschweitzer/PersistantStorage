@@ -112,7 +112,27 @@ namespace PersistantStorageTest
             dbkvp = stringDict.Get(id, true);
             Console.WriteLine("From db: " + dbkvp.KeyObject + " " + dbkvp.DataObject);
 
+            Console.WriteLine("======================================================");
+
+            var myList = new PersistantDictionary<int, Device>(connection, "homeservice", "dev_demo");
+
+            id = myList.GetId((x, y) => x == 15);
+            var dev = myList.Get(id);
+
+            var d2 = new Device();
+            d2.name = "d2";
+            d2.uid = "ddd";
+            var id2 = myList.Add(18, d2);
+
+            id = myList.GetId((x, y) => x == 18);
+            var de2v = myList.Get(id2);
             Console.ReadLine();
         }
+    }
+
+    public class Device
+    {
+        public string name;
+        public string uid;
     }
 }

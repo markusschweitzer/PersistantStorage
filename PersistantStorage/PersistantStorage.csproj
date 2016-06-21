@@ -52,6 +52,7 @@
     <Compile Include="PersistantDictionary\PersistantDictionary.cs" />
     <Compile Include="PersistantDictionary\PersistantDictionaryElement.cs" />
     <Compile Include="PersistantDictionary\PersistantDictionaryUpdateContext.cs" />
+    <Compile Include="PersistantList\IPersistantList.cs" />
     <Compile Include="PersistantList\PersistantList.cs" />
     <Compile Include="PersistantList\PersistantListElement.cs" />
     <Compile Include="PersistantList\PersistantListUpdateContext.cs" />
