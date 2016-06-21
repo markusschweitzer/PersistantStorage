@@ -86,19 +86,19 @@ list.ForEachElementUpdate(x => x += "addition");
 Also for better handling, a few support methods are provided:
 
 ```csharp
-        IReadOnlyList<PersistantListElement<T>> ToList();
-        IReadOnlyList<T> ToElementList();
-        
-        PersistantListElement<T>[] ToArray();
-        T[] ToElementArray();
-        
-        List<string> GetId(Func<T, bool> filter);
+IReadOnlyList<PersistantListElement<T>> ToList();
+IReadOnlyList<T> ToElementList();
 
-        void Clear();
+PersistantListElement<T>[] ToArray();
+T[] ToElementArray();
 
-        long Count();
+List<string> GetId(Func<T, bool> filter);
 
-        void Remove(string id);
-        void Remove(List<string> ids);
-        void Remove(Func<T, bool> filter);
+void Clear();
+
+long Count();
+
+void Remove(string id);
+void Remove(List<string> ids);
+void Remove(Func<T, bool> filter);
 ```
