@@ -32,14 +32,20 @@ IMongoCollection<T> GetCollection<T>(IMongoDatabase database, string collection)
 IMongoCollection<T> GetCollection<T>(string database, string collection);
 ```
 
+```PersistantConnection``` has a ```DefaultDatabase``` property. If you specify it, the database name in the constructor and create calls can be omited.
+
+```csharp
+connection.DefaultDatabase = "database";
+```
+
 ###PersistantList
 
 To create a new ```PersistantList``` you can either call the constructor, or get a new one from the ```PersistantConnection``` object.
 
 ```csharp
-var list = new PersistantList<string>(connection, "database", "collection");
+var list = new PersistantList<string>(connection, "collection", "database");
 
-var list2 = connection.CreateList<string>("database", "collection");
+var list2 = connection.CreateList<string>("collection", "database");
 ```
 
 Afterwards, you can use the list to store objects in it:
@@ -108,9 +114,9 @@ void Remove(Func<T, bool> filter);
 To create a new ```PersistantDictionary``` you can either call the constructor, or get a new one from the ```PersistantConnection``` object.
 
 ```csharp
-var dict = new PersistantDictionary<int, string>(connection, "database", "collection");
+var dict = new PersistantDictionary<int, string>(connection, "collection", "database");
 
-var dict2 = connection.CreateDictionary<int, string>("database", "collection");
+var dict2 = connection.CreateDictionary<int, string>("collection", "database");
 ```
 
 Afterwards, you can use the dictionary to store objects in it:
