@@ -89,7 +89,12 @@ namespace PersistantStorage
         public void Remove(string id)
         {
             _collection.DeleteOneAsync(x => x.Id.Equals(id)).Wait();
-            _localCache.Remove(_localCache.First(x => x.Id.Equals(id)));
+
+            var ele = _localCache.FirstOrDefault(x => x.Id.Equals(id));
+            if (ele != null)
+            {
+                _localCache.Remove(ele);
+            }
         }
 
         public void Remove(List<string> ids)
