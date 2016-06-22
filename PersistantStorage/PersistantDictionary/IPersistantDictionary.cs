@@ -12,6 +12,8 @@ namespace PersistantStorage
 
         string AddOrReplace(K key, T item);
 
+        T this[K key] { get; }
+
         T Get(K key);
 
         bool TryGetValue(K key, out T value);
