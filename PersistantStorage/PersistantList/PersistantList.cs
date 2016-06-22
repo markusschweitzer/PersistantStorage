@@ -242,5 +242,19 @@ namespace PersistantStorage
                 yield return ele;
             }
         }
+
+        public string Export(IPersistantSerializer serializer)
+        {
+            return serializer.Serialize(_localCache);
+        }
+
+        public void Import(IPersistantSerializer serializer, string data)
+        {
+            var temp = serializer.Deserialize<List<PersistantListElement<T>>>(data);
+            foreach(var ele in temp)
+            {
+                Add(ele.DataObject);
+            }
+        }
     }
 }

@@ -67,5 +67,10 @@ namespace PersistantStorage
 
         T[] ToElementArray();
 
+
+
+        string Export(IPersistantSerializer serializer);
+        void Import(IPersistantSerializer serializer, string data);
+
     }
 }

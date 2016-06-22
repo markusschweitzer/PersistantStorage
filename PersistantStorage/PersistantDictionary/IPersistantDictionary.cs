@@ -68,5 +68,10 @@ namespace PersistantStorage
 
 
         void ResetCollection(bool keepEntries);
+
+
+        string Export(IPersistantSerializer serializer);
+        void Import(IPersistantSerializer serializer, string data);
+
     }
 }
