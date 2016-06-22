@@ -55,7 +55,7 @@ namespace PersistantStorage
 
 
 
-        IReadOnlyList<PersistantDictionaryElement<K, T>> ToList();
+        List<PersistantDictionaryElement<K, T>> ToList();
 
         Dictionary<K, T> ToDictionary();
 

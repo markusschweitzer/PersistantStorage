@@ -135,9 +135,9 @@ namespace PersistantStorage
 
         public PersistantListUpdateContext<T> CreateUpdateContext(string id) => new PersistantListUpdateContext<T>(this, id);
 
-        public IReadOnlyList<PersistantListElement<T>> ToList() => _localCache;
+        public List<PersistantListElement<T>> ToList() => _localCache;
 
-        public IReadOnlyList<T> ToElementList()
+        public List<T> ToElementList()
         {
             var temp = new List<T>();
             foreach(var  ele in _localCache)

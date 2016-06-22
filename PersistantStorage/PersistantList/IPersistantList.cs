@@ -59,9 +59,9 @@ namespace PersistantStorage
 
 
 
-        IReadOnlyList<PersistantListElement<T>> ToList();
+        List<PersistantListElement<T>> ToList();
 
-        IReadOnlyList<T> ToElementList();
+        List<T> ToElementList();
 
         PersistantListElement<T>[] ToArray();
 

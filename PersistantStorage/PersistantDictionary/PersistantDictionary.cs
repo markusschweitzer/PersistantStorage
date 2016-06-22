@@ -230,7 +230,7 @@ namespace PersistantStorage
 
         public PersistantDictionaryUpdateContext<K, T> CreateUpdateContext(string id) => new PersistantDictionaryUpdateContext<K, T>(this, id);
 
-        public IReadOnlyList<PersistantDictionaryElement<K, T>> ToList() => _localCache;
+        public List<PersistantDictionaryElement<K, T>> ToList() => _localCache;
 
         public Dictionary<K, T> ToDictionary()
         {
