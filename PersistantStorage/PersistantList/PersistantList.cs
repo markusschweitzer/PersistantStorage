@@ -14,8 +14,12 @@ namespace PersistantStorage
         private List<PersistantListElement<T>> _localCache;
 
 
-        public PersistantList(PersistantStorageConnection connection, string database, string collection)
+        public PersistantList(PersistantStorageConnection connection, string collection, string database = null)
         {
+            if (string.IsNullOrEmpty(database))
+            {
+                database = connection.DefaultDatabase;
+            }
             _db = connection.GetDatabase(database);
             _collection = connection.GetCollection<PersistantListElement<T>>(_db, collection);
             _collectionName = collection;

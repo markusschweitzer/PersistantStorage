@@ -9,6 +9,8 @@ namespace PersistantStorage
 {
     public interface IPersistantStorageConnection
     {
+        string DefaultDatabase { get; set; }
+
         bool IsConnected { get; }
 
         bool Connect(string connectionString, out Exception exception);

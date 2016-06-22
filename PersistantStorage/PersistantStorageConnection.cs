@@ -11,6 +11,12 @@ namespace PersistantStorage
     {
         private MongoClient _client;
 
+        public string DefaultDatabase
+        {
+            get;
+            set;
+        }
+
         public bool IsConnected
         {
             get
@@ -35,10 +41,18 @@ namespace PersistantStorage
             }
         }
 
+        public bool Connect(string connectionString, string defaultDatabase, out Exception exception)
+        {
+            DefaultDatabase = defaultDatabase;
+
+            return Connect(connectionString, out exception);
+        }
+
         public void Disconnect()
         {
             _client = null;
         }
+
 
         public IMongoDatabase GetDatabase(string database)
         {
@@ -67,17 +81,21 @@ namespace PersistantStorage
             throw new InvalidOperationException("Client not connected!");
         }
 
-        public IPersistantList<T> CreateList<T>(string database, string collection)
+
+
+        public IPersistantList<T> CreateList<T>(string collection, string database = null)
         {
             return new PersistantList<T>(this, database, collection);
         }
 
-        public IPersistantDictionary<K, T> CreateDictionary<K, T>(string database, string collection)
+        public IPersistantDictionary<K, T> CreateDictionary<K, T>(string collection, string database = null)
         {
             return new PersistantDictionary<K, T>(this, database, collection);
         }
 
-        public IPersistantList<T> CreateListIfNull<T>(IPersistantList<T> list, string database, string collection)
+
+
+        public IPersistantList<T> CreateListIfNull<T>(IPersistantList<T> list, string collection, string database = null)
         {
             if (list == null)
             {
@@ -89,7 +107,7 @@ namespace PersistantStorage
             }
         }
 
-        public IPersistantDictionary<K, T> CreateDictionaryIfNull<K, T>(IPersistantDictionary<K, T> dict, string database, string collection)
+        public IPersistantDictionary<K, T> CreateDictionaryIfNull<K, T>(IPersistantDictionary<K, T> dict, string collection, string database = null)
         {
             if (dict == null)
             {

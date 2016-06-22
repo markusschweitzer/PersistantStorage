@@ -16,8 +16,12 @@ namespace PersistantStorage
         private List<PersistantDictionaryElement<K, T>> _localCache;
 
 
-        public PersistantDictionary(PersistantStorageConnection connection, string database, string collection)
+        public PersistantDictionary(PersistantStorageConnection connection, string collection, string database = null)
         {
+            if (string.IsNullOrEmpty(database))
+            {
+                database = connection.DefaultDatabase;
+            }
             _db = connection.GetDatabase(database);
             _collection = connection.GetCollection<PersistantDictionaryElement<K, T>>(_db, collection);
             _collectionName = collection;
