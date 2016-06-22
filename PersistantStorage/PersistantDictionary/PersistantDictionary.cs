@@ -31,28 +31,6 @@ namespace PersistantStorage
             _localCache = task.Result;
         }
 
-        public PersistantDictionary(IMongoDatabase database, string collection)
-        {
-            _db = database;
-            _collection = _db.GetCollection<PersistantDictionaryElement<K, T>>(collection);
-            _collectionName = collection;
-
-            var task = _collection.Find(x => true).ToListAsync();
-            task.Wait();
-            _localCache = task.Result;
-        }
-
-        public PersistantDictionary(IMongoCollection<PersistantDictionaryElement<K, T>> collection)
-        {
-            _db = collection.Database;
-            _collection = collection;
-            _collectionName = collection.CollectionNamespace.CollectionName;
-
-            var task = _collection.Find(x => true).ToListAsync();
-            task.Wait();
-            _localCache = task.Result;
-        }
-
         public string Add(K key, T item)
         {
             var newEle = new PersistantDictionaryElement<K, T>(key, item);
