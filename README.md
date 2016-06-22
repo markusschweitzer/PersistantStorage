@@ -92,8 +92,8 @@ list.ForEachElementUpdate(x => x += "addition");
 Also for better handling, a few support methods are provided:
 
 ```csharp
-IReadOnlyList<PersistantListElement<T>> ToList();
-IReadOnlyList<T> ToElementList();
+List<PersistantListElement<T>> ToList();
+List<T> ToElementList();
 
 PersistantListElement<T>[] ToArray();
 T[] ToElementArray();
@@ -209,7 +209,7 @@ void Remove(string id);
 void Remove(List<string> ids);
 void Remove(Func<K, T, bool> filter);
 
-IReadOnlyList<PersistantDictionaryElement<K, T>> ToList();
+List<PersistantDictionaryElement<K, T>> ToList();
 
 Dictionary<K, T> ToDictionary();
 
