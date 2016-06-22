@@ -109,6 +109,32 @@ void Remove(List<string> ids);
 void Remove(Func<T, bool> filter);
 ```
 
+It is possible to export and import the whohle list to/from a string. To use this feature you need to implement the IPersistantSerializer interface with your custom string serializer:
+
+```csharp
+    class MyStringSerializer : IPersistantSerializer
+    {
+        public T Deserialize<T>(string data)
+        {
+            //add your deserialization code here
+        }
+
+        public string Serialize<T>(T data)
+        {
+            //add your serialization code here
+        }
+    }
+```
+Afterwards you can call the import/export methods of PersistantElements:
+
+```csharp
+
+var list = new PersistantList<string>(connection, "collection", "database");
+list.Add("aString");
+
+string exportedList = list.Export(new MyStringSerializer());
+```
+
 ###PersistantDictionary
 
 To create a new ```PersistantDictionary``` you can either call the constructor, or get a new one from the ```PersistantConnection``` object.
@@ -188,4 +214,29 @@ IReadOnlyList<PersistantDictionaryElement<K, T>> ToList();
 Dictionary<K, T> ToDictionary();
 
 PersistantDictionaryElement<K, T>[] ToArray();
+```
+It is possible to export and import the whohle dictionary to/from a string. To use this feature you need to implement the IPersistantSerializer interface with your custom string serializer:
+
+```csharp
+    class MyStringSerializer : IPersistantSerializer
+    {
+        public T Deserialize<T>(string data)
+        {
+            //add your deserialization code here
+        }
+
+        public string Serialize<T>(T data)
+        {
+            //add your serialization code here
+        }
+    }
+```
+Afterwards you can call the import/export methods of PersistantElements:
+
+```csharp
+
+var dict = new PersistantDictionary<int, string>(connection, "collection", "database");
+dict.Add(15, "aString");
+
+string exportedDict = dict.Export(new MyStringSerializer());
 ```
