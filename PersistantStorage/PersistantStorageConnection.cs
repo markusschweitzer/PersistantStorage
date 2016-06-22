@@ -76,5 +76,29 @@ namespace PersistantStorage
         {
             return new PersistantDictionary<K, T>(this, database, collection);
         }
+
+        public IPersistantList<T> CreateListIfNull<T>(IPersistantList<T> list, string database, string collection)
+        {
+            if (list == null)
+            {
+                return CreateList<T>(database, collection);
+            }
+            else
+            {
+                return list;
+            }
+        }
+
+        public IPersistantDictionary<K, T> CreateDictionaryIfNull<K, T>(IPersistantDictionary<K, T> dict, string database, string collection)
+        {
+            if (dict == null)
+            {
+                return CreateDictionary<K, T>(database, collection);
+            }
+            else
+            {
+                return dict;
+            }
+        }
     }
 }
