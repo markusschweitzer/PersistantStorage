@@ -55,6 +55,8 @@ namespace PersistantStorage
             return id;
         }
 
+        public T this[K key] => Get(key);
+
         public T Get(K key)
         {
             var ele = _localCache.FirstOrDefault(x => x.KeyObject.Equals(key));
