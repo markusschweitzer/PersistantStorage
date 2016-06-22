@@ -63,6 +63,20 @@ namespace PersistantStorage
             return newEle.Id;
         }
 
+        public string AddOrReplace(K key, T item)
+        {
+            string id;
+            if(ContainsKey(key, out id))
+            {
+                id = SetValue(key, item);
+            }
+            else
+            {
+                id = Add(key, item);
+            }
+            return id;
+        }
+
         public T Get(K key)
         {
             var ele = _localCache.FirstOrDefault(x => x.KeyObject.Equals(key));

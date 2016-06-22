@@ -10,6 +10,8 @@ namespace PersistantStorage
     {
         string Add(K key, T item);
 
+        string AddOrReplace(K key, T item);
+
         T Get(K key);
 
         bool TryGetValue(K key, out T value);
