@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PersistantStorage
 {
-    public class PersistantStorageConnection : IPersistantStorageConnection
+    public class PersistantStorageConnection : MarshalByRefObject, IPersistantStorageConnection
     {
         private MongoClient _client;
 

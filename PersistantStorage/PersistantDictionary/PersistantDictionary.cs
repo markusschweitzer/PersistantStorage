@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PersistantStorage
 {
-    public class PersistantDictionary<K, T> : IEnumerable, IPersistantDictionary<K, T>
+    public class PersistantDictionary<K, T> : MarshalByRefObject, IEnumerable, IPersistantDictionary<K, T>
     {
         private IMongoCollection<PersistantDictionaryElement<K, T>> _collection;
         private readonly string _collectionName;

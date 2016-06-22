@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PersistantStorage
 {
-    public class PersistantListElement<T>
+    public class PersistantListElement<T> : MarshalByRefObject
     {
         [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
         public string Id;

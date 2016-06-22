@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PersistantStorage
 {
-    public class PersistantListUpdateContext<T> : IDisposable
+    public class PersistantListUpdateContext<T> : MarshalByRefObject, IDisposable
     {
         string _id;
         PersistantList<T> _list;

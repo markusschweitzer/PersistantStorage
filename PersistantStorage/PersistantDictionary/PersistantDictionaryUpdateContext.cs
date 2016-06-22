@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PersistantStorage
 {
-    public class PersistantDictionaryUpdateContext<K, T> : IDisposable
+    public class PersistantDictionaryUpdateContext<K, T> : MarshalByRefObject, IDisposable
     {
         string _id;
         PersistantDictionary<K, T> _dictionary;

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace PersistantStorage
 {
-    public class PersistantList<T> : IEnumerable, IPersistantList<T>
+    public class PersistantList<T> : MarshalByRefObject, IEnumerable, IPersistantList<T>
     {
         private IMongoCollection<PersistantListElement<T>> _collection;
         private readonly string _collectionName;
