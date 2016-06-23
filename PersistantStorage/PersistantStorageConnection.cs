@@ -89,11 +89,19 @@ namespace PersistantStorage
 
         public IPersistantList<T> CreateList<T>(string collection, string database = null)
         {
+            if (string.IsNullOrEmpty(database))
+            {
+                database = DefaultDatabase;
+            }
             return new PersistantList<T>(this, database, collection);
         }
 
         public IPersistantDictionary<K, T> CreateDictionary<K, T>(string collection, string database = null)
         {
+            if (string.IsNullOrEmpty(database))
+            {
+                database = DefaultDatabase;
+            }
             return new PersistantDictionary<K, T>(this, database, collection);
         }
 
