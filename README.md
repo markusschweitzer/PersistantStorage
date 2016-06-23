@@ -25,12 +25,6 @@ if (!connection.IsConnected)
 }
 ```
 
-To create persistant elements you need either the name of the database and collection, or the MongoDB object. Therefore ```PersistantConnection``` has some usefull methods:
-```csharp
-IMongoDatabase GetDatabase(string database);
-IMongoCollection<T> GetCollection<T>(IMongoDatabase database, string collection);
-IMongoCollection<T> GetCollection<T>(string database, string collection);
-```
 
 ```PersistantConnection``` has a ```DefaultDatabase``` property. If you specify it, the database name in the constructor and create calls can be omited.
 
@@ -102,7 +96,8 @@ List<string> GetId(Func<T, bool> filter);
 
 void Clear();
 
-long Count();
+int Count();
+int Count(Func<T, bool> filter);
 
 void Remove(string id);
 void Remove(List<string> ids);
@@ -203,7 +198,8 @@ Also for better handling, a few support methods are provided:
 ```csharp
 void Clear();
 
-long Count();
+int Count();
+int Count(Func<PersistantDictionaryElement<K, T>, bool> filter);
 
 void Remove(string id);
 void Remove(List<string> ids);
