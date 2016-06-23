@@ -36,8 +36,8 @@ namespace PersistantStorage
 
 
 
-        long Count();
-
+        int Count();
+        int Count(Func<PersistantDictionaryElement<K, T>, bool> filter);
 
 
 

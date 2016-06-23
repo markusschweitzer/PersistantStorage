@@ -84,7 +84,20 @@ namespace PersistantStorage
             _localCache.Clear();
         }
 
-        public long Count() => _localCache.Count;
+        public int Count() => _localCache.Count;
+
+        public int Count(Func<T, bool> filter)
+        {
+            int count = 0;
+            foreach(var ele in _localCache)
+            {
+                if (filter(ele.DataObject))
+                {
+                    ++count;
+                }
+            }
+            return count;
+        }
 
         public void Remove(string id)
         {

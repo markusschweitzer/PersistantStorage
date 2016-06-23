@@ -24,7 +24,8 @@ namespace PersistantStorage
 
 
 
-        long Count();
+        int Count();
+        int Count(Func<T, bool> filter);
 
 
 

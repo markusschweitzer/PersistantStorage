@@ -179,7 +179,20 @@ namespace PersistantStorage
             _localCache.Clear();
         }
 
-        public long Count() => _localCache.Count;
+        public int Count() => _localCache.Count;
+
+        public int Count(Func<PersistantDictionaryElement<K,T>, bool> filter)
+        {
+            int count = 0;
+            foreach (var ele in _localCache)
+            {
+                if (filter(ele))
+                {
+                    ++count;
+                }
+            }
+            return count;
+        }
 
         public void Remove(string id)
         {
