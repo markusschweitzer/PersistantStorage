@@ -11,11 +11,12 @@ namespace PersistantStorage
         string _id;
         PersistantDictionary<K, T> _dictionary;
         PersistantDictionaryElement<K, T> _element;
+        bool _async;
 
         public K KeyObject;
         public T DataObject;
         
-        public PersistantDictionaryUpdateContext(PersistantDictionary<K, T> dictionary, string id)
+        public PersistantDictionaryUpdateContext(PersistantDictionary<K, T> dictionary, string id, bool async = false)
         {
             _dictionary = dictionary;
             _id = id;
@@ -23,13 +24,23 @@ namespace PersistantStorage
 
             KeyObject = _element.KeyObject;
             DataObject = _element.DataObject;
+
+            _async = async;
         }
 
         public void Dispose()
         {
             _element.KeyObject = KeyObject;
             _element.DataObject = DataObject;
-            _dictionary.Update(_id, x => _element);
+
+            if (_async)
+            {
+                _dictionary.UpdateAsync(_id, x => _element);
+            }
+            else
+            {
+                _dictionary.Update(_id, x => _element);
+            }
         }
     }
 }

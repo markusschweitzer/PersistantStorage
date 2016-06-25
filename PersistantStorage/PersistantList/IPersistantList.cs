@@ -41,9 +41,11 @@ namespace PersistantStorage
 
 
 
-
+        Task UpdateAsync(string id, Func<T, T> update);
         void Update(string id, Func<T, T> update);
-        
+
+
+        PersistantListUpdateContext<T> CreateAsyncUpdateContext(string id);
         PersistantListUpdateContext<T> CreateUpdateContext(string id);
 
 

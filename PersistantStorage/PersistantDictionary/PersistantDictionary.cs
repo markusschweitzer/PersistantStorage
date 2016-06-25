@@ -232,6 +232,7 @@ namespace PersistantStorage
 
             Remove(temp);
         }
+        public Task UpdateAsync(string id, Func<PersistantDictionaryElement<K, T>, PersistantDictionaryElement<K, T>> update) => _asyncShed.AddTask(() => Update(id, update));
 
         public void Update(string id, Func<PersistantDictionaryElement<K, T>, PersistantDictionaryElement<K, T>> update)
         {
@@ -253,6 +254,7 @@ namespace PersistantStorage
             }
         }
 
+        public PersistantDictionaryUpdateContext<K, T> CreateAsyncUpdateContext(string id) => new PersistantDictionaryUpdateContext<K, T>(this, id, true);
         public PersistantDictionaryUpdateContext<K, T> CreateUpdateContext(string id) => new PersistantDictionaryUpdateContext<K, T>(this, id);
 
         public List<PersistantDictionaryElement<K, T>> ToList() => _localCache;

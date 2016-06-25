@@ -138,6 +138,8 @@ namespace PersistantStorage
             Remove(temp);
         }
 
+        public Task UpdateAsync(string id, Func<T, T> update) => _asyncShed.AddTask(() => Update(id, update));
+
         public void Update(string id, Func<T,T> update)
         {
             var currentFind = _collection.Find(x => x.Id.Equals(id)).ToListAsync().Result;
@@ -157,6 +159,8 @@ namespace PersistantStorage
         }
 
         public PersistantListUpdateContext<T> CreateUpdateContext(string id) => new PersistantListUpdateContext<T>(this, id);
+
+        public PersistantListUpdateContext<T> CreateAsyncUpdateContext(string id) => new PersistantListUpdateContext<T>(this, id, true);
 
         public List<PersistantListElement<T>> ToList() => _localCache;
 

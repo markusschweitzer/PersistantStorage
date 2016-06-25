@@ -51,9 +51,10 @@ namespace PersistantStorage
 
 
 
-
+        Task UpdateAsync(string id, Func<PersistantDictionaryElement<K, T>, PersistantDictionaryElement<K, T>> update);
         void Update(string id, Func<PersistantDictionaryElement<K, T>, PersistantDictionaryElement<K, T>> update);
 
+        PersistantDictionaryUpdateContext<K, T> CreateAsyncUpdateContext(string id);
         PersistantDictionaryUpdateContext<K, T> CreateUpdateContext(string id);
 
 
