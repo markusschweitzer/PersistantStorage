@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PersistantStorage
 {
@@ -12,7 +13,7 @@ namespace PersistantStorage
         private readonly string _collectionName;
         private readonly IMongoDatabase _db;
         private List<PersistantListElement<T>> _localCache;
-
+        private AsyncScheduler _asyncShed;
 
         public PersistantList(PersistantStorageConnection connection, string collection, string database = null)
         {
@@ -27,7 +28,11 @@ namespace PersistantStorage
             var task = _collection.Find(x => true).ToListAsync();
             task.Wait();
             _localCache = task.Result;
+            
+            _asyncShed = new AsyncScheduler();            
         }
+
+        public Task<string> AddAsync(T item) => _asyncShed.AddTask(() => Add(item));
 
         public string Add(T item)
         {

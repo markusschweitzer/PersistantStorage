@@ -14,6 +14,7 @@ namespace PersistantStorage
         private readonly string _collectionName;
         private readonly IMongoDatabase _db;
         private List<PersistantDictionaryElement<K, T>> _localCache;
+        private AsyncScheduler _asyncShed;
 
 
         public PersistantDictionary(PersistantStorageConnection connection, string collection, string database = null)
@@ -29,7 +30,11 @@ namespace PersistantStorage
             var task = _collection.Find(x => true).ToListAsync();
             task.Wait();
             _localCache = task.Result;
+
+            _asyncShed = new AsyncScheduler();
         }
+
+        public Task<string> AddAsync(K key, T item) => _asyncShed.AddTask<string>(() => Add(key, item));
 
         public string Add(K key, T item)
         {

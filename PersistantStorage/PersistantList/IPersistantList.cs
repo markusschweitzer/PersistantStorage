@@ -16,7 +16,10 @@ namespace PersistantStorage
 
         List<string> GetId(Func<T, bool> filter);
 
-        
+
+        Task<string> AddAsync(T item);
+
+        string Add(T item);
 
 
 

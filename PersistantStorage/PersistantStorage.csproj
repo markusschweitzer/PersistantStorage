@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Async\AsyncScheduler.cs" />
     <Compile Include="DictionaryRepresentationConvention.cs" />
     <Compile Include="IPersistantStorageConnection.cs" />
     <Compile Include="PersistantDictionary\IPersistantDictionary.cs" />

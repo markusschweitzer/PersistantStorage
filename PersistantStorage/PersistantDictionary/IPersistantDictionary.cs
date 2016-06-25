@@ -8,6 +8,8 @@ namespace PersistantStorage
 {
     public interface IPersistantDictionary<K, T>
     {
+        Task<string> AddAsync(K key, T item);
+
         string Add(K key, T item);
 
         string AddOrReplace(K key, T item);
