@@ -83,6 +83,8 @@ For easy updating of multiple items a convinient ForEach loop is provided:
 list.ForEachElementUpdate(x => x += "addition");
 ```
 
+For All Add and Update methods, a async version is provided.
+
 Also for better handling, a few support methods are provided:
 
 ```csharp
@@ -192,6 +194,8 @@ list.ForEachUpdate(x => {
    return x;
 });
 ```
+
+For All Add and Update methods, a async version is provided.
 
 Also for better handling, a few support methods are provided:
 
