@@ -12,6 +12,8 @@ namespace PersistantStorage
     public class PersistantStorageConnection : MarshalByRefObject, IPersistantStorageConnection
     {
         private MongoClient _client;
+        List<string> _trackedCollections = new List<string>();
+        private const string _trackedCollectionSeparator = ".";
 
         public string DefaultDatabase
         {
@@ -56,7 +58,26 @@ namespace PersistantStorage
         {
             _client = null;
         }
+        
+        public void AddTrackedCollection(string database, string collection)
+        {
+            string entryName = string.Format("{0}{1}{2}", database, _trackedCollectionSeparator, collection);
+            if (!_trackedCollectionSeparator.Contains(entryName))
+            {
+                _trackedCollections.Add(entryName);
+            }
+        }
 
+        public void RemoveTrackedCollection(string database, string collection)
+        {
+            string entryName = string.Format("{0}{1}{2}", database, _trackedCollectionSeparator, collection);
+            _trackedCollections.Remove(entryName);
+        }
+
+        public List<string> GetAlltrackedCollections()
+        {
+            return _trackedCollections;
+        }
 
         public IMongoDatabase GetDatabase(string database)
         {
