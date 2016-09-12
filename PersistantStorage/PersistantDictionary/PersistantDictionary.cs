@@ -42,7 +42,7 @@ namespace PersistantStorage
 
         ~PersistantDictionary()
         {
-            _connection.AddTrackedCollection(_dbName, _collectionName);
+            _connection.RemoveTrackedCollection(_dbName, _collectionName);
         }
 
         public Task<string> AddAsync(K key, T item) => _asyncShed.AddTask<string>(() => Add(key, item));
