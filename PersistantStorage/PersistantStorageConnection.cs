@@ -12,7 +12,8 @@ namespace PersistantStorage
     public class PersistantStorageConnection : MarshalByRefObject, IPersistantStorageConnection
     {
         private MongoClient _client;
-        List<string> _trackedCollections = new List<string>();
+        Dictionary<string, object> _trackedDictionaries = new Dictionary<string, object>();
+        Dictionary<string, object> _trackedLists = new Dictionary<string, object>();
         private const string _trackedCollectionSeparator = ".";
 
         public string DefaultDatabase
@@ -58,25 +59,43 @@ namespace PersistantStorage
         {
             _client = null;
         }
-        
-        public void AddTrackedCollection(string database, string collection)
+
+        public void AddTrackedDictionary(string database, string collection, object dictionary)
         {
             string entryName = string.Format("{0}{1}{2}", database, _trackedCollectionSeparator, collection);
-            if (!_trackedCollectionSeparator.Contains(entryName))
+            if (!_trackedDictionaries.ContainsKey(entryName))
             {
-                _trackedCollections.Add(entryName);
+                _trackedDictionaries.Add(entryName, dictionary);
             }
         }
 
-        public void RemoveTrackedCollection(string database, string collection)
+        public void AddTrackedList(string database, string collection, object list)
         {
             string entryName = string.Format("{0}{1}{2}", database, _trackedCollectionSeparator, collection);
-            _trackedCollections.Remove(entryName);
+            if (!_trackedLists.ContainsKey(entryName))
+            {
+                _trackedLists.Add(entryName, list);
+            }
         }
 
-        public List<string> GetAlltrackedCollections()
+        public void RemoveTrackedDictionary(string database, string collection)
         {
-            return _trackedCollections;
+            string entryName = string.Format("{0}{1}{2}", database, _trackedCollectionSeparator, collection);
+            _trackedDictionaries.Remove(entryName);
+        }
+        public void RemoveTrackedList(string database, string collection)
+        {
+            string entryName = string.Format("{0}{1}{2}", database, _trackedCollectionSeparator, collection);
+            _trackedLists.Remove(entryName);
+        }
+
+        public Dictionary<string, object> GetAlltrackedDictionaries()
+        {
+            return _trackedDictionaries;
+        }
+        public Dictionary<string, object> GetAlltrackedList()
+        {
+            return _trackedLists;
         }
 
         public IMongoDatabase GetDatabase(string database)
